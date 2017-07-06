@@ -1,5 +1,5 @@
 """
-This modules provides classes.
+This modules provide a class for Envimet Workspace
 
 Classes:
     WorkspaceFolderLB
