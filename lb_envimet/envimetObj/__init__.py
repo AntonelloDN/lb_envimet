@@ -23,5 +23,5 @@
 
 from location import *
 from material import *
-from grid import *
+from autoGrid import *
 from geometry import *
