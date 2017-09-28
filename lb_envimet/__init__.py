@@ -19,7 +19,7 @@
 # along with lb_envimet; If not, see <http://www.gnu.org/licenses/>.
 #
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
-
+############################################################################
 
 __author__ = "Antonello Di Nunzio <antonellodinunzio@gmail.com>"
 __date__ = "24 Jan 2017"
