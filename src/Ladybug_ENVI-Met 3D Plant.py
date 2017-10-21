@@ -26,7 +26,7 @@ Use this component to generate ENVI-Met 3D plants for "LB ENVI-Met Spaces".
 -
 Some 'plant3Did_' could not work properly.
 -
-Provided by Ladybug 0.0.64
+Provided by Ladybug 0.0.65
     
     Args:
         _plant3D_: Geometry that represent ENVI-Met plant 3d.  Geometry must be a Surface or Brep on xy plane.
@@ -40,11 +40,11 @@ Provided by Ladybug 0.0.64
 
 ghenv.Component.Name = "Ladybug_ENVI-Met 3D Plant"
 ghenv.Component.NickName = 'ENVI-Met3dPlant'
-ghenv.Component.Message = 'VER 0.0.64\nFEB_26_2017'
+ghenv.Component.Message = 'VER 0.0.65\nJUL_28_2017'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Ladybug"
 ghenv.Component.SubCategory = "7 | WIP"
-#compatibleLBVersion = VER 0.0.62\nJUN_07_2016
+#compatibleLBVersion = VER 0.0.59\nFEB_01_2015
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 

@@ -24,7 +24,7 @@
 """
 Use this component to create your own profile material. Note that there are many advanced properties you can set.
 -
-Provided by Ladybug 0.0.64
+Provided by Ladybug 0.0.65
     
     Args:
         _Id: Database-ID of User Material, just two letters or numbers(e.g. MP).
@@ -45,11 +45,11 @@ Provided by Ladybug 0.0.64
 
 ghenv.Component.Name = "Ladybug_ENVI-Met Profile Material"
 ghenv.Component.NickName = 'ENVI-MetProfileMaterial'
-ghenv.Component.Message = 'VER 0.0.64\nFEB_26_2017'
+ghenv.Component.Message = 'VER 0.0.65\nJUL_28_2017'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Ladybug"
 ghenv.Component.SubCategory = "7 | WIP"
-#compatibleLBVersion = VER 0.0.62\nJUN_07_2016
+#compatibleLBVersion = VER 0.0.59\nFEB_01_2015
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 

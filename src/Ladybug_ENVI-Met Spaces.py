@@ -30,7 +30,7 @@ Save the model in the ENVI_MET Workspace, set the simulation file with ENVI_MET 
 -
 It can write files with equidistant grid only. I add telescopic grid soon.
 -
-Provided by Ladybug 0.0.64
+Provided by Ladybug 0.0.65
     
     Args:
         _north_: Input a number between 0 and 360 that represents the degrees off from the y-axis to make North.  The default North direction is set to the Y-axis (0 degrees).
@@ -65,11 +65,11 @@ Provided by Ladybug 0.0.64
 
 ghenv.Component.Name = "Ladybug_ENVI-Met Spaces"
 ghenv.Component.NickName = 'ENVI-MetSpaces'
-ghenv.Component.Message = 'VER 0.0.64\nFEB_26_2017'
+ghenv.Component.Message = 'VER 0.0.65\nJUL_28_2017'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Ladybug"
 ghenv.Component.SubCategory = "7 | WIP"
-#compatibleLBVersion = VER 0.0.62\nJUN_07_2016
+#compatibleLBVersion = VER 0.0.59\nFEB_01_2015
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 
@@ -242,72 +242,79 @@ def main():
     # create grid
     if _envimetObjects_ or _baseSurface_:
         gridPoints = createGrid(_envimetObjects_, _baseSurface_, _envimetGrid)
+        
+        if _runIt:
+            # create parts
+            envimetObjDict = evimetPartsGenerator(_envimetObjects_, _envimetGrid, gridPoints)
+            # add emptyMatrix
+            envimetObjDict['EmptyMatrix'] = _envimetGrid.emptyMatrix()
+            # keys
+            envimetObjDictKeys = envimetObjDict.keys()
+            # default assignments
+            terrain3d, buildingFlag, building3D, plant2d, plant3d, source, terrain2d, buildingBottom2d, buildingTop2d, buildingCommonMaterial, soil, buildingEmptyMatrix, buildingIds = '', '', '', envimetObjDict['EmptyMatrix'], '', envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], ['00','00'], re.sub('', 'LO', envimetObjDict['EmptyMatrix']), re.sub('', '0', envimetObjDict['EmptyMatrix']), re.sub('', '0', envimetObjDict['EmptyMatrix'])
+            
+             
+            for key in envimetObjDictKeys:
+                if key == 'BuildingCommonMaterial':
+                    buildingCommonMaterial = envimetObjDict['BuildingCommonMaterial']
+                elif key == 'BuildingEmptyMatrix':
+                    buildingEmptyMatrix = envimetObjDict['BuildingEmptyMatrix']
+                elif key == 'BuildingIds':
+                    buildingIds = envimetObjDict['BuildingIds']
+                elif key == 'BuildingBottom2d':
+                    buildingBottom2d = envimetObjDict['BuildingBottom2d']
+                elif key == 'BuildingTop2d':
+                    buildingTop2d = envimetObjDict['BuildingTop2d']
+                elif key == 'Terrain3d':
+                    terrain3d = envimetObjDict['Terrain3d']
+                elif key == 'BuildingFlag':
+                    buildingFlag = envimetObjDict['BuildingFlag']
+                elif key == 'Building3D':
+                    building3D = envimetObjDict['Building3D']
+                elif key == 'Plant2d':
+                    plant2d = envimetObjDict['Plant2d']
+                elif key == 'Plant3d':
+                    plant3d = envimetObjDict['Plant3d']
+                elif key == 'Soil':
+                    soil = envimetObjDict['Soil']
+                elif key == 'Source':
+                    source = envimetObjDict['Source']
+                elif key == 'EmptyMatrix':
+                    emptyMatrix = envimetObjDict['EmptyMatrix']
+                elif key == 'Terrain2d':
+                    terrain2d = envimetObjDict['Terrain2d']
+            
+            # other args
+            isFull3DDesign = 1
+            if nestingGrid_:
+                numNesting = nestingGrid_.numNestingGrid
+                matNesting = [nestingGrid_.soilProfileA, nestingGrid_.soilProfileB]
+            else:
+                numNesting, matNesting = 3, ['LO', 'LO']
+            location = _envimetLocation.locationAttributes
+            
+            # write file
+            writeINX(fileAddress, numX, numY, numZ, dimX, dimY,
+                    dimZ, str(numNesting), matNesting, location, north, buildingCommonMaterial,
+                    buildingEmptyMatrix , buildingIds, buildingBottom2d, buildingTop2d, terrain3d ,
+                    buildingFlag, building3D, plant2d, plant3d, soil, source, emptyMatrix, terrain2d , 
+                    isFull3DDesign, verticalStretch, startStretch, telescopingGrid, has3DModel = 1)
+            
+            INXfileAddress = fileAddress
+            
+            # open the file
+            os.startfile(INXfileAddress)
+            
+            return gridPoints, INXfileAddress
+        
+        return gridPoints, None
     
-    if _runIt:
-        # create parts
-        envimetObjDict = evimetPartsGenerator(_envimetObjects_, _envimetGrid, gridPoints)
-        # add emptyMatrix
-        envimetObjDict['EmptyMatrix'] = _envimetGrid.emptyMatrix()
-        # keys
-        envimetObjDictKeys = envimetObjDict.keys()
-        # default assignments
-        terrain3d, buildingFlag, building3D, plant2d, plant3d, source, terrain2d, buildingBottom2d, buildingTop2d, buildingCommonMaterial, soil, buildingEmptyMatrix, buildingIds = '', '', '', envimetObjDict['EmptyMatrix'], '', envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], envimetObjDict['EmptyMatrix'], ['00','00'], re.sub('', 'LO', envimetObjDict['EmptyMatrix']), re.sub('', '0', envimetObjDict['EmptyMatrix']), re.sub('', '0', envimetObjDict['EmptyMatrix'])
-        
-         
-        for key in envimetObjDictKeys:
-            if key == 'BuildingCommonMaterial':
-                buildingCommonMaterial = envimetObjDict['BuildingCommonMaterial']
-            elif key == 'BuildingEmptyMatrix':
-                buildingEmptyMatrix = envimetObjDict['BuildingEmptyMatrix']
-            elif key == 'BuildingIds':
-                buildingIds = envimetObjDict['BuildingIds']
-            elif key == 'BuildingBottom2d':
-                buildingBottom2d = envimetObjDict['BuildingBottom2d']
-            elif key == 'BuildingTop2d':
-                buildingTop2d = envimetObjDict['BuildingTop2d']
-            elif key == 'Terrain3d':
-                terrain3d = envimetObjDict['Terrain3d']
-            elif key == 'BuildingFlag':
-                buildingFlag = envimetObjDict['BuildingFlag']
-            elif key == 'Building3D':
-                building3D = envimetObjDict['Building3D']
-            elif key == 'Plant2d':
-                plant2d = envimetObjDict['Plant2d']
-            elif key == 'Plant3d':
-                plant3d = envimetObjDict['Plant3d']
-            elif key == 'Soil':
-                soil = envimetObjDict['Soil']
-            elif key == 'Source':
-                source = envimetObjDict['Source']
-            elif key == 'EmptyMatrix':
-                emptyMatrix = envimetObjDict['EmptyMatrix']
-            elif key == 'Terrain2d':
-                terrain2d = envimetObjDict['Terrain2d']
-        
-        # other args
-        isFull3DDesign = 1
-        if nestingGrid_:
-            numNesting = nestingGrid_.numNestingGrid
-            matNesting = [nestingGrid_.soilProfileA, nestingGrid_.soilProfileB]
-        else:
-            numNesting, matNesting = 3, ['LO', 'LO']
-        location = _envimetLocation.locationAttributes
-        
-        # write file
-        writeINX(fileAddress, numX, numY, numZ, dimX, dimY,
-                dimZ, str(numNesting), matNesting, location, north, buildingCommonMaterial,
-                buildingEmptyMatrix , buildingIds, buildingBottom2d, buildingTop2d, terrain3d ,
-                buildingFlag, building3D, plant2d, plant3d, soil, source, emptyMatrix, terrain2d , 
-                isFull3DDesign, verticalStretch, startStretch, telescopingGrid, has3DModel = 1)
-        
-        INXfileAddress = fileAddress
-        
-        # open the file
-        os.startfile(INXfileAddress)
-        
-        return gridPoints, INXfileAddress
-    
-    return gridPoints, None
+    else:
+        w = gh.GH_RuntimeMessageLevel.Warning
+        message = "Please provide envimetBuildings if your grid is based on buildings "\
+        "or baseSurface if your grid is based on surface"
+        ghenv.Component.AddRuntimeMessage(w, message)
+        return None, None
 
 
 initCheck = False

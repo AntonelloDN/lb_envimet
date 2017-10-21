@@ -24,7 +24,7 @@
 """
 Use this component to set ENVI-Met nesting grid for "LB ENVI-Met Spaces".
 -
-Provided by Ladybug 0.0.64
+Provided by Ladybug 0.0.65
     
     Args:
         numNestingGrid_: Connect an integer to set how many nesting cells to use for calculation. Default value is 3.
@@ -37,11 +37,11 @@ Provided by Ladybug 0.0.64
 
 ghenv.Component.Name = "Ladybug_ENVI-Met Nesting Grid"
 ghenv.Component.NickName = 'ENVI-MetNestingGrid'
-ghenv.Component.Message = 'VER 0.0.64\nFEB_26_2017'
+ghenv.Component.Message = 'VER 0.0.65\nJUL_28_2017'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Ladybug"
 ghenv.Component.SubCategory = "7 | WIP"
-#compatibleLBVersion = VER 0.0.62\nJUN_07_2016
+#compatibleLBVersion = VER 0.0.59\nFEB_01_2015
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 
