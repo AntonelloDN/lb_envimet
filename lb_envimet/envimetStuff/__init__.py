@@ -26,3 +26,4 @@
 from readEnvimet import *
 from makeMainFolder import *
 from writeINX import *
+from writeMaterial import *
