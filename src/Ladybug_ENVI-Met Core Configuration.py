@@ -27,8 +27,9 @@ This component generates SIM files which are necessary for simulation.
 Provided by Ladybug 0.0.65
     
     Args:
+        ENVImetInstallFolder_: Optional folder path for ENVImet4 installation folder.
         _envimetFolder: Envimet project folder.
-        -----------------: (...)
+        ------------------------: (...)
         _mainSettings: Basic settings to run a simulation with ENVI_MET (required input from ENVI-Met MainSIMsettings).
         timing_: Connect the output comes from ENVI-MetTimingSettingsName to change timing settings.
         solarAdjust_: Connect the output comes from ENVI-MetSolarAdjustSettings to change solar irradiation settings.
@@ -36,12 +37,12 @@ Provided by Ladybug 0.0.65
         timesteps_: Connect the output comes from ENVI-MetTimestepsSettings to change timesteps of the sun.
         soilData_: Connect the output comes from ENVI-MetSoilDataSettings to change initial condition of the ground (temperature and relative humidiy).
         simpleForce_: Connect the output comes from ENVI-MetSimpleForceByEPW to force climatic condition using data of a day of a EPW file.
-        lbcType_: WIP :)
-        turbulence_: WIP :)
-        -----------------: (...)
+        lbcType_: Connect the output comes from ENVI-MetLBCSettings to change lateral boudary condition.
+        turbulence_: Connect the output comes from ENVI-MetLBCSettings to change turbulence settings.
+        ------------------------: (...)
         _writeIt: Set True to write the SIM file.
+        runHeadquarter_: Set True to open ENVI_MET Headquarter directly where you can run the simulation.
         -
-        After that you are good to go, run ENVI MET Headquarter and run the simulation!
         Select ENVI-met / Version(...) / Load Simulation. It open the folder where SIM file is saved.
     Returns:
         readMe!: ...
@@ -60,6 +61,19 @@ except: pass
 
 import os
 import Grasshopper.Kernel as gh
+
+
+def checkENVIfolder():
+    appdata = os.getenv("APPDATA")
+    directory = os.path.join(appdata[:3], "ENVImet4")
+    
+    if os.path.isdir(directory):
+        return True
+    else:
+        w = gh.GH_RuntimeMessageLevel.Warning
+        ghenv.Component.AddRuntimeMessage(w, "Please, provide full path of your ENVI_MET installation folder.")
+        return False
+
 
 def main():
     
@@ -93,12 +107,27 @@ def main():
         text8 = '\n' + simpleForce_.simpleForceSettingsText
     else:
         text8 = ''
+    if lbcType_:
+        text9 = '\n' + lbcType_.lbcTypesSettingsText
+    else:
+        text9 = ''
+    if turbulence_:
+        text10 = '\n' + turbulence_.turbulenceSettingsText
+    else:
+        text10 = ''
     
     fullPath = os.path.join(_envimetFolder, _mainSettings.SIMname + '.SIM')
     
     # write all
     with open(fullPath, "w") as f:
-        f.write(text1 + text2 + text3 + text4 + text5 + text6 + text7 + text8)
+        f.write(text1 + text2 + text3 + text4 + text5 + text6 + text7 + text8 + text9 + text10)
+    
+    if checkENVIfolder():
+        path = r"C:\ENVImet4\EnvimetHeadquarter.exe"
+    else:
+        path = ENVImetInstallFolder_
+    if runHeadquarter_:
+        os.startfile(path)
     
     return fullPath
 

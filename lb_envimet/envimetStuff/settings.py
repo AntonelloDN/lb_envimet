@@ -175,3 +175,35 @@ class simpleForceSettings(object):
 	simpleForceText = lines1 + '\n' + lines2
 
 	return simpleForceText
+
+
+# lateral boundary condition [T temperature, q Humidity]
+class lbcTypesSettings(object):
+    def __init__(self, lbcTq, lbcTKE):
+	self.lbcTq = lbcTq
+	self.lbcTKE = lbcTKE
+
+    @property
+    def lbcTypesSettingsText(self):
+	lbcTypesText = """[LBC-TYPES] _______________________________________
+LBC for T and q (1:open, 2:forced, 3:cyclic)  ={0}
+LBC for TKE (1:open, 2:forced, 3:cyclic)      ={1}""".format(self.lbcTq, self.lbcTKE)
+
+        return lbcTypesText
+
+
+# Turbulence Model
+class turbulenceSettings(object):
+    def __init__(self, turbulence1d, turbulence3d, upperBoudary):
+	self.turbulence1d = turbulence1d
+	self.turbulence3d = turbulence3d
+	self.upperBoudary = upperBoudary
+
+    @property
+    def turbulenceSettingsText(self):
+	turbulenceText = """[TURBULENCE] _______________________________________
+Turbulence Closure 1D ABL (0:diagn.,1:prognos.)  ={0}
+Turbulence Closure 3D Modell (0:diagn.,1:progs.) ={1}
+Upper Boundary for e-epsilon (0:closed,1:open) ={2}""".format(self.turbulence1d, self.turbulence3d, self.upperBoudary)
+
+        return turbulenceText
