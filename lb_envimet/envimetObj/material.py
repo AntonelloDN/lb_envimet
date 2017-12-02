@@ -80,4 +80,4 @@ class createProfileMaterial(object):
         self.Group = Group
         self.Color = str(randint(1000000, 9999999))
         self.AddValue1 = '0.00000'
-        self.AddValue2 = '0.0000
+        self.AddValue2 = '0.00000'
