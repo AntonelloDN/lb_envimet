@@ -94,7 +94,7 @@ def main():
     if timesteps_:
         text5 = '\n' + timesteps_.timestepsSettingsText
     else:
-        text6 = ''
+        text5 = ''
     if soilData_:
         text6 = '\n' + soilData_.soilDataSettingsText
     else:
