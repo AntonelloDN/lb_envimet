@@ -1,10 +1,10 @@
-# LB ENVI-Met envimetObj
+8# LB ENVI-Met envimetObj
 #
 # lb_envimet: A series of components to connect Ladybug and Gismo to Envimet for urban microclimatic analysis
 #
 # This file is part of lb_envimet.
 #
-# Copyright (c) 2013-2017, Antonello Di Nunzio <antonellodinunzio@gmail.com>
+# Copyright (c) 2013-2018, Antonello Di Nunzio <antonellodinunzio@gmail.com>
 # Ladybug is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published
 # by the Free Software Foundation; either version 3 of the License,
