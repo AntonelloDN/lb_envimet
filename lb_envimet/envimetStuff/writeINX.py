@@ -50,6 +50,7 @@ def writeINX(fullPath, Xcells, Ycells, Zcells, Xdim, Ydim, Zdim, numNesting, mat
         for node in elements:
             childRoot.childNodes.append(node)
 
+
     # date
     timeTxt = datetime.datetime.now()
     timeTxt = str(timeTxt)[:-7]
@@ -142,36 +143,36 @@ def writeINX(fullPath, Xcells, Ycells, Zcells, Xdim, Ydim, Zdim, numNesting, mat
                   'commonRoofMaterial': buildingCommonMaterial[1]
                   }
     nameAttribute2D, dataAttribute2D = ['type', 'dataI', 'dataJ'], ['matrix-data', str(Xcells), str(Ycells)] #buildingIds
-    buildings2DDict = {'zTop':buildingTop2d,
-                  'zBottom':buildingBottom2d,
-                  'buildingNr':buildingIds,
-                  'fixedheight':buildingEmptyMatrix
+    buildings2DDict = {'zTop':'\n' + buildingTop2d + '\n',
+                  'zBottom': '\n' + buildingBottom2d + '\n',
+                  'buildingNr': '\n' + buildingIds + '\n',
+                  'fixedheight': '\n' + buildingEmptyMatrix + '\n'
                   }
-    simpleplants2DDict = {'ID_plants1D':plant2d
+    simpleplants2DDict = {'ID_plants1D':'\n' + plant2d + '\n'
                   }
-    soils2DDict = {'ID_soilprofile':soil
+    soils2DDict = {'ID_soilprofile':'\n' + soil + '\n'
                   }
-    demDict = {'terrainheight':terrain2d
+    demDict = {'terrainheight':'\n' + terrain2d + '\n'
                   }
-    sources2DDict = {'ID_sources':source
+    sources2DDict = {'ID_sources':'\n' + source + '\n'
                   }
-    receptors2DDict = {'ID_receptors':emptySequence
+    receptors2DDict = {'ID_receptors':'\n' + emptySequence + '\n'
                   }# empty
-    additionalDataDict = {'db_link_point':emptySequence,
-                  'db_link_area':emptySequence
+    additionalDataDict = {'db_link_point':'\n' + emptySequence + '\n',
+                  'db_link_area':'\n' + emptySequence + '\n'
                   }# empty
     modelGeometry3DDict = {'grids3D-I': str(Xcells),
                   'grids3D-J': str(Ycells),
                   'grids3D-K': str(grids3DK)
                   }
     nameAttribute3Dbuilding, dataAttribute3Dbuilding = ['type', 'dataI', 'dataJ', 'zlayers', 'defaultValue'], ['sparematrix-3D', str(Xcells), str(Ycells), str(grids3DK), '0']
-    buildings3DDict = {'buildingFlagAndNr':buildingFlag
+    buildings3DDict = {'buildingFlagAndNr':'\n' + buildingFlag + '\n'
                   }
     nameAttribute3DTerrain, dataAttribute3DTerrain = ['type', 'dataI', 'dataJ', 'zlayers', 'defaultValue'], ['sparematrix-3D', str(Xcells), str(Ycells), str(grids3DK), '0.00000']
-    dem3DDict = {'terrainflag':terrain3d
+    dem3DDict = {'terrainflag':'\n' + terrain3d + '\n'
                   }
     nameAttributeWallDB, dataAttributeWallDB = ['type', 'dataI', 'dataJ', 'zlayers', 'defaultValue'], ['sparematrix-3D', str(Xcells), str(Ycells), str(grids3DK), '']
-    WallDBDict = {'ID_wallDB':building3D
+    WallDBDict = {'ID_wallDB':'\n' + building3D + '\n'
                   }
     nameAttributeSingleWallDB, dataAttributeSingleWallDB = ['type', 'dataI', 'dataJ', 'zlayers', 'defaultValue'], ['sparematrix-3D', str(Xcells), str(Ycells), str(grids3DK), '']
     SingleWallDBDict = {'ID_singlewallDB':''
@@ -210,7 +211,7 @@ def writeINX(fullPath, Xcells, Ycells, Zcells, Xdim, Ydim, Zdim, numNesting, mat
     appendMultipleChildWithAttribute(SingleWallDBDict, SingleWallDB, nameAttributeSingleWallDB, dataAttributeSingleWallDB)
 
     # pass xml in xml string
-    xml_str = root.toprettyxml(indent="  ")
+    xml_str = root.toprettyxml(indent=" ", newl="\n")
 
     with open(fullPath, "w") as f:
         f.write(xml_str[23:])
