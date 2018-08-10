@@ -91,6 +91,18 @@ def writeINX(fullPath, Xcells, Ycells, Zcells, Xdim, Ydim, Zdim, numNesting, mat
     xml.appendChild(defaultSettings)
     xml.appendChild(buildings2D)
     xml.appendChild(simpleplants2D)
+    if plant3d:
+        for plant in plant3d:
+            plants3D = root.createElement('3Dplants')
+            xml.appendChild(plants3D)
+            plants3DDict = {'rootcell_i': str(plant[0]),
+                          'rootcell_j': str(plant[1]),
+                          'rootcell_k': str(plant[2]),
+                          'plantID': str(plant[3]),
+                          'name': str(plant[4]),
+                          'observe': str(plant[5])
+                          }
+            appendMultipleChild(plants3DDict, plants3D)
     xml.appendChild(soils2D)
     xml.appendChild(dem)
     xml.appendChild(sources2D)
@@ -187,18 +199,6 @@ def writeINX(fullPath, Xcells, Ycells, Zcells, Xdim, Ydim, Zdim, numNesting, mat
     appendMultipleChild(defaultSettingsDict, defaultSettings)
     appendMultipleChildWithAttribute(buildings2DDict, buildings2D, nameAttribute2D, dataAttribute2D)
     appendMultipleChildWithAttribute(simpleplants2DDict, simpleplants2D, nameAttribute2D, dataAttribute2D)
-    if plant3d:
-        for plant in plant3d:
-            plants3D = root.createElement('3Dplants')
-            xml.appendChild(plants3D)
-            plants3DDict = {'rootcell_i': str(plant[0]),
-                          'rootcell_j': str(plant[1]),
-                          'rootcell_k': str(plant[2]),
-                          'plantID': str(plant[3]),
-                          'name': str(plant[4]),
-                          'observe': str(plant[5])
-                          }
-            appendMultipleChild(plants3DDict, plants3D)
     appendMultipleChildWithAttribute(soils2DDict, soils2D, nameAttribute2D, dataAttribute2D)
     appendMultipleChildWithAttribute(demDict, dem, nameAttribute2D, dataAttribute2D)
     appendMultipleChildWithAttribute(sources2DDict, sources2D, nameAttribute2D, dataAttribute2D)
