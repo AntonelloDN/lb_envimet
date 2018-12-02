@@ -1,11 +1,9 @@
 A series of components to connect Ladybug and Gismo to ENVI_MET for urban microclimatic analysis.
 Original project's name: lb_envimet
 
-VERSION: 0.0.1
-
 FEATURES:
 - Modeling 3D buildings with Grasshopper to generate ENVI_MET model areas;
-- Integration with other plugins such as Ladybug, Gismo;
+- Integration with other plugins such as Ladybug, Gismo or web app like cadmapper (https://cadmapper.com/);
 - Using EPW file to feed simulation file;
 - Generating SIM file.
 
