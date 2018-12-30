@@ -4,6 +4,7 @@ A series of components to connect Ladybug and Gismo to Envimet for urban microcl
 ## Contributors(a-z):
 * [Abraham Yezioro](https://github.com/ayezioro)
 * [Antonello Di Nunzio](https://github.com/AntonelloDN)
+* [Charles Collin](https://github.com/CharlesCollin91)
 ### installation guide of BugMET
 BugMet is a plugin made with GH components that uses <strong>lb_envimet</strong> and <strong>Gismo</strong>.<br>
 Installation guide in Mandarin by Leeyuan Ko: <br>
