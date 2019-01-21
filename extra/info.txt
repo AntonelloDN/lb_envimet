@@ -13,4 +13,12 @@ ENHANCEMENT REQUEST RELEASED:
 - New Surface input for DF Envimet Grid;
 - Grid based on surface;
 
+[2019/01/21]*:
+- Timesteps settings for simulation file;
+- Building indoor temperature for simulation file;
+- Terrain (early adopter);
+- Move building component for terrain;
+
 CONTACTS: antonellodinunzio@gmail.com
+
+*BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet/plugin beta
