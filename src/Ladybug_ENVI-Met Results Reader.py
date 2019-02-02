@@ -40,9 +40,9 @@ Provided by Ladybug 0.0.65
         2 = radiation
         3 = soil
         4 = surface
-        _selectItem_: Connect an integer number which represent the index of the file you want to read. Plug a panel to 'outputFiles' to see them.
+        _selectItem_: Connect a Grasshopper Domain (A, B) which represent the range of files you want to read. Plug a panel to 'outputFiles' to see right indices.
         -
-        Default value is 0, the first file in ENVI-Met model folder.
+        Default value is just the first file (0), the first file in ENVI-Met model folder.
         _variable_: Select one variable.
         -
         1 = Flow u (m/s)
@@ -103,6 +103,7 @@ import os
 import re
 import sys
 import collections
+import threading
 import scriptcontext as sc
 import Grasshopper.Kernel as gh
 ##################LB ENVI_MET###################
@@ -119,8 +120,8 @@ studyFolderDict = {'0':'atmosphere', '1':'pollutants', '2':'radiation', '3':'soi
 inputsDict = {
 0: ["_outputFolder", "ENVI-Met output folder path. E.g. 'C:\...\\NewSimulation_output'."],
 1: ["_studyFolder_", "ENVI-Met sub-folder, connect a number from 0 to 4. Default value is 0.\n-\n0 = atmosphere\n1 = pollutants\n2 = radiation\n3 = soil\n4 = surface"],
-2: ["_selectItem_", "Connect an integer number which represent the index of the file you want to read. Plug a panel to 'outputFiles' to see them.\n" + \
-"-\nDefault value is 0, the first file in ENVI-Met model folder."],
+2: ["_selectItem_", "Connect a Grasshopper Domain (A, B) which represent the range of files you want to read. Plug a panel to 'outputFiles' to see right indices.\n" + \
+"-\nDefault value is just the first file (0), the first file in ENVI-Met model folder."],
 3: ["_variable_", "Select one variable.\n-\n" + \
 "1 = Flow u (m/s)\n2 = Flow v (m/s)\n3 = Flow w (m/s)\n4 = Wind Speed (m/s)\n5 = Wind Speed Change ()\n6 = Wind Direction (deg)\n7 = Pressure Perturbation (Diff)\n"+ \
 "8 = Air Temperature (C)\n9 = Air Temperature Delta (K)\n10 = Air Temperature Change (K/h)\n11 = Spec. Humidity (g/kg)\n12 = Relative Humidity ()\n" + \
@@ -299,7 +300,7 @@ def checkInputs(outputFolder):
 
 
 def ENVIparser(metaname, dataname, folder, variable, variableHeader, date):
-    
+    print(threading.currentThread().getName())
     # run envimet core
     variable = str(variable)
     myFile = readEnvimet.ReadEnvimet(metaname)
@@ -327,7 +328,7 @@ def makeFolder(subFolder):
 
 
 def main():
-    if _selectItem_ == None: selectItem = 0
+    if _selectItem_ == None: selectItem = [0, 0]
     else: selectItem = _selectItem_
     if _variable_ == None: variable = 2
     else: variable = _variable_
@@ -356,24 +357,40 @@ def main():
     listFileW = [item[:-4] for item in listFile]
     listFileW = [item for item, count in collections.Counter(listFileW).items() if count == 2 if 'CHECK' not in item]
     outputFiles = sorted(listFileW)
-    try:
-        selItem = outputFiles[selectItem]
-    except IndexError:
-        print("There are just {} files in the folder.".format(len(outputFiles)))
-        return -1
-    print("you are reading this file: {}".format(selItem))
     
-    metaname = os.path.join(outputFolder, outputFiles[selectItem] + '.EDX')
-    dataname = os.path.join(outputFolder, outputFiles[selectItem] + '.EDT')
+    # prepare a list for files
+    files = []
     
     if _runIt:
-        fileName = ENVIparser(metaname, dataname, folderName, variable, varStr, selItem[-19:])
-        if os.path.isfile(fileName):
-            resultFileAddress = fileName
-            return resultFileAddress, outputFiles
-        else:
-            print("File not found.")
-            return -1
+        
+        for i in xrange(selectItem[0], selectItem[1]+1):
+            
+            fileName = folderName + str(variable) + '_' + str(i) + ".txt"
+            print(fileName)
+            try:
+                selItem = outputFiles[i]
+                
+            except IndexError:
+                print("There are just {} files in the folder.".format(len(outputFiles)))
+                return -1
+            print("you are reading this file: {}".format(selItem))
+            
+            metaname = os.path.join(outputFolder, outputFiles[i] + '.EDX')
+            dataname = os.path.join(outputFolder, outputFiles[i] + '.EDT')
+            
+            
+            t = threading.Thread(target = ENVIparser, args = (metaname, dataname, folderName, variable, varStr + '_' + str(i), selItem[-19:]))
+            t.setDaemon(True)
+            t.start()
+            t.join()
+            
+            if os.path.isfile(fileName):
+                files.append(fileName)
+            else:
+                print("File not found.")
+                return -1
+                
+        return files, outputFiles
     else:
         print("Set runIt to True.")
         return None, outputFiles
