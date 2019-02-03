@@ -302,7 +302,7 @@ def checkInputs(outputFolder):
 def ENVIparser(metaname, dataname, folder, variable, variableHeader, date):
     print(threading.currentThread().getName())
     # run envimet core
-    variable = str(variable)
+    #variable = str(variable)
     myFile = readEnvimet.ReadEnvimet(metaname)
     cleanFile = myFile.readEnvimetNoBinaryFile(0)
     writeCleanFile = myFile.writeReadebleEDXFile(folder, cleanFile, variable)
@@ -366,7 +366,7 @@ def main():
         for i in xrange(selectItem[0], selectItem[1]+1):
             
             fileName = folderName + str(variable) + '_' + str(i) + ".txt"
-            print(fileName)
+            
             try:
                 selItem = outputFiles[i]
                 
@@ -379,7 +379,7 @@ def main():
             dataname = os.path.join(outputFolder, outputFiles[i] + '.EDT')
             
             
-            t = threading.Thread(target = ENVIparser, args = (metaname, dataname, folderName, variable, varStr + '_' + str(i), selItem[-19:]))
+            t = threading.Thread(target = ENVIparser, args = (metaname, dataname, folderName, str(variable)  + '_' + str(i), varStr, selItem[-19:]))
             t.setDaemon(True)
             t.start()
             t.join()
