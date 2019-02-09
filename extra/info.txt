@@ -19,6 +19,12 @@ ENHANCEMENT REQUEST RELEASED:
 - Terrain (early adopter);
 - Move building component for terrain;
 
+[2019/01/23]*:
+- LBC settings for simulation file;
+
+[2019/02/09]*:
+- Soil init condition for simulation file;
+
 CONTACTS: antonellodinunzio@gmail.com
 
-*BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet/plugin beta
+*BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
