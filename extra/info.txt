@@ -28,7 +28,7 @@ ENHANCEMENT REQUEST RELEASED:
 [2019/02/20]*:
 - Edit building materials (E.g. adding windows to a building);
 
-[2019/02/24]*:
+[2019/02/23]*:
 -  Horizontal overhang & horizontal shadings;
 
 CONTACTS: antonellodinunzio@gmail.com
