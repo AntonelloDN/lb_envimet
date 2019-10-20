@@ -76,13 +76,13 @@ class WorkspaceFolderLB(object):
                     '<description>  </description>', '<useProjectDB> 1 </useProjectDB>', '</project_description>', '</ENVI-MET_Datafile>']
             f.write('\n'.join(text))
 
-
-        with open(edbFileInFolder, 'w') as f:
-            text = ['<ENVI-MET_Datafile>', '<Header>', '<filetype>DATA</filetype>',
-                    '<version>1</version>', '<revisiondate>{}</revisiondate>'.format(timeTxt),
-                    '<remark>Envi-Data</remark>', '<encryptionlevel>1701377</encryptionlevel>',
-                    '</Header>', '</ENVI-MET_Datafile>']
-            f.write('\n'.join(text))
+		if not os.path.isfile(edbFileInFolder):
+			with open(edbFileInFolder, 'w') as f:
+				text = ['<ENVI-MET_Datafile>', '<Header>', '<filetype>DATA</filetype>',
+						'<version>1</version>', '<revisiondate>{}</revisiondate>'.format(timeTxt),
+						'<remark>Envi-Data</remark>', '<encryptionlevel>1701377</encryptionlevel>',
+						'</Header>', '</ENVI-MET_Datafile>']
+				f.write('\n'.join(text))
 
 
         return fullFolder
